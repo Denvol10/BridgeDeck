@@ -27,7 +27,7 @@ namespace BridgeDeck.ViewModels
 
         #region Заголовок
 
-        private string _title = "Комнаты";
+        private string _title = "Bridge Deck";
 
         public string Title
         {
