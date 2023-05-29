@@ -12,6 +12,7 @@ using Autodesk.Revit.DB.Architecture;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using BridgeDeck.Infrastructure;
+using BridgeDeck.Models;
 
 namespace BridgeDeck.ViewModels
 {
@@ -25,6 +26,7 @@ namespace BridgeDeck.ViewModels
             set => _revitModel = value;
         }
 
+
         #region Заголовок
 
         private string _title = "Bridge Deck";
@@ -37,35 +39,10 @@ namespace BridgeDeck.ViewModels
 
         #endregion
 
-        #region Список комнат
-
-        private ObservableCollection<string> _rooms;
-
-        public ObservableCollection<string> Rooms
-        {
-            get => _rooms;
-            set => Set(ref _rooms, value);
-        }
-
-        #endregion
 
         #region Команды
 
-        #region Команда получение всех комнат
 
-        public ICommand GetRoomsCommand { get; }
-
-        private void OnGetRoomsCommandExecuted(object parameter)
-        {
-            Rooms = new ObservableCollection<string>(RevitModel.GetAllRooms());
-        }
-
-        private bool CanGetRoomsCommandExecute(object parameter)
-        {
-            return true;
-        }
-
-        #endregion
 
         #endregion
 
@@ -73,9 +50,8 @@ namespace BridgeDeck.ViewModels
         #region Конструктор класса MainWindowViewModel
         public MainWindowViewModel()
         {
-            #region
+            #region Команды
 
-            GetRoomsCommand = new LambdaCommand(OnGetRoomsCommandExecuted, CanGetRoomsCommandExecute);
 
             #endregion
         }

@@ -5,12 +5,12 @@ using Autodesk.Revit.DB;
 
 namespace BridgeDeck.Models
 {
-    internal class Polycurve
+    public class PolyCurve
     {
         public List<Curve> Curves { get; set; }
         public List<(Curve Line, double Start, double Finish)> ParametricCurves { get; set; }
 
-        public Polycurve(IEnumerable<Curve> curves)
+        public PolyCurve(IEnumerable<Curve> curves)
         {
             int countCurves = curves.Count();
             int countIter = curves.Count();
