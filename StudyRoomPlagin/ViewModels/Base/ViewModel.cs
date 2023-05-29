@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace RevitWPFTemplate.ViewModels.Base
+namespace BridgeDeck.ViewModels.Base
 {
     internal abstract class ViewModel : INotifyPropertyChanged
     {
