@@ -19,8 +19,8 @@ namespace BridgeDeck.Models
         {
             Selection sel = uiapp.ActiveUIDocument.Selection;
             var selectedElements = sel.PickElementsByRectangle("Select Road Axis");
-            elementIds = ElementIdToString(selectedElements);
             var directshapeRoadAxis = selectedElements.OfType<DirectShape>();
+            elementIds = ElementIdToString(directshapeRoadAxis);
             var curvesRoadAxis = GetCurvesByDirectShapes(directshapeRoadAxis);
 
             return curvesRoadAxis;
