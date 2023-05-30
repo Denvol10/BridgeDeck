@@ -29,6 +29,8 @@ namespace BridgeDeck
             Doc = uiapp.ActiveUIDocument.Document;
         }
 
+        #region Ось трассы
+
         public PolyCurve RoadAxis { get; set; }
 
         private string _roadAxisElemIds;
@@ -43,5 +45,25 @@ namespace BridgeDeck
             var curves = RevitGeometryUtils.GetCurvesByRectangle(Uiapp, out _roadAxisElemIds);
             RoadAxis = new PolyCurve(curves);
         }
+
+        #endregion
+
+        #region Линия на поверхности 1
+
+        public List<Line> RoadLines1 { get; set; }
+
+        private string _roadLineElemIds1;
+        public string RoadLineElemIds1
+        {
+            get => _roadLineElemIds1;
+            set => _roadLineElemIds1 = value;
+        }
+
+        public void GetRoadLine1()
+        {
+            RoadLines1 = RevitGeometryUtils.GetRoadLines(Uiapp, out _roadLineElemIds1);
+        }
+
+        #endregion
     }
 }

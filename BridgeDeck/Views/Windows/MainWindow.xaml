@@ -19,7 +19,7 @@
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <GroupBox Grid.Column="0"
-                  Header="Выбор линий">
+                  Header="Ввод">
             <StackPanel>
                 <TextBlock Text="Ось трассы"
                            Width="120"
@@ -44,10 +44,12 @@
                         Width="120"
                         Height="20"
                         HorizontalAlignment="Center"
-                        Margin="0,10,0,0" />
+                        Margin="0,10,0,0"
+                        Command="{Binding GetRoadLines1}" />
             </StackPanel>
         </GroupBox>
-        <GroupBox  Grid.Column="1" Header="Выбранные элементы">
+        <GroupBox  Grid.Column="1"
+                   Header="Выбранные элементы">
             <StackPanel>
                 <TextBox Text="{Binding RoadAxisElemIds, Mode=OneWay}"
                          IsReadOnly="True"
@@ -56,7 +58,9 @@
                          Height="40"
                          HorizontalAlignment="Center"
                          Margin="0,15,0,0" />
-                <TextBox Text="Id elementns"
+                <TextBox Text="{Binding RoadLineElemIds1, Mode=OneWay}"
+                         IsReadOnly="True"
+                         TextWrapping="Wrap"
                          Width="150"
                          Height="40"
                          HorizontalAlignment="Center"

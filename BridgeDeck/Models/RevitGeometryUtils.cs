@@ -10,6 +10,7 @@ using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.DB.Architecture;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace BridgeDeck.Models
 {
@@ -24,6 +25,20 @@ namespace BridgeDeck.Models
             var curvesRoadAxis = GetCurvesByDirectShapes(directshapeRoadAxis);
 
             return curvesRoadAxis;
+        }
+
+        // Метод получения списка линий на поверхности дороги
+        public static List<Line> GetRoadLines(UIApplication uiapp, out string elementIds)
+        {
+            Selection sel = uiapp.ActiveUIDocument.Selection;
+            var selectedOnRoadSurface = sel.PickObjects(ObjectType.Element, "Select Road Lines 1");
+            var directShapesRoadSurface = selectedOnRoadSurface.Select(r => uiapp.ActiveUIDocument.Document.GetElement(r))
+                                                               .OfType<DirectShape>();
+            elementIds = ElementIdToString(directShapesRoadSurface);
+            var curvesRoadSurface = GetCurvesByDirectShapes(directShapesRoadSurface);
+            var linesRoadSurface = curvesRoadSurface.OfType<Line>().ToList();
+
+            return linesRoadSurface;
         }
 
         // Получение линий на основе элементов DirectShape
@@ -72,5 +87,7 @@ namespace BridgeDeck.Models
 
             return resultString;
         }
+
+
     }
 }
