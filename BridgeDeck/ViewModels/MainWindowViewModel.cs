@@ -26,7 +26,6 @@ namespace BridgeDeck.ViewModels
             set => _revitModel = value;
         }
 
-
         #region Заголовок
 
         private string _title = "Bridge Deck";
@@ -39,9 +38,38 @@ namespace BridgeDeck.ViewModels
 
         #endregion
 
+        #region Элементы оси трассы
+
+        private string _roadAxisElemIds;
+
+        public string RoadAxisElemIds
+        {
+            get => _roadAxisElemIds;
+            set => Set(ref _roadAxisElemIds, value);
+        }
+
+        #endregion
 
         #region Команды
 
+        #region Получение оси трассы
+
+        public ICommand GetRoadAxis { get; }
+
+        private void OnGetRoadAxisCommandExecuted(object parameter)
+        {
+            RevitCommand.mainView.Hide();
+            RevitModel.GetPolyCurve();
+            RoadAxisElemIds = RevitModel.RoadAxisElemIds;
+            RevitCommand.mainView.ShowDialog();
+        }
+
+        private bool CanGetRoadAxisCommandExecute(object parameter)
+        {
+            return true;
+        }
+
+        #endregion
 
 
         #endregion
@@ -52,6 +80,7 @@ namespace BridgeDeck.ViewModels
         {
             #region Команды
 
+            GetRoadAxis = new LambdaCommand(OnGetRoadAxisCommandExecuted, CanGetRoadAxisCommandExecute);
 
             #endregion
         }

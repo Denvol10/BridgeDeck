@@ -15,10 +15,11 @@ namespace BridgeDeck.Models
 {
     internal class RevitGeometryUtils
     {
-        public static List<Curve> GetCurvesByRectangle(UIApplication uiapp)
+        public static List<Curve> GetCurvesByRectangle(UIApplication uiapp, out string elementIds)
         {
             Selection sel = uiapp.ActiveUIDocument.Selection;
             var selectedElements = sel.PickElementsByRectangle("Select Road Axis");
+            elementIds = ElementIdToString(selectedElements);
             var directshapeRoadAxis = selectedElements.OfType<DirectShape>();
             var curvesRoadAxis = GetCurvesByDirectShapes(directshapeRoadAxis);
 
@@ -50,7 +51,7 @@ namespace BridgeDeck.Models
         }
 
         // Метод получения списка линий на основе полилинии
-        public static IEnumerable<Curve> GetCurvesByPolyline(PolyLine polyLine)
+        private static IEnumerable<Curve> GetCurvesByPolyline(PolyLine polyLine)
         {
             var curves = new List<Curve>();
 
@@ -61,6 +62,15 @@ namespace BridgeDeck.Models
             }
 
             return curves;
+        }
+
+        // Метод получения строки с ElementId
+        private static string ElementIdToString(IEnumerable<Element> elements)
+        {
+            var stringArr = elements.Select(e => "Id" + e.Id.IntegerValue.ToString()).ToArray();
+            string resultString = string.Join(", ", stringArr);
+
+            return resultString;
         }
     }
 }

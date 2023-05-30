@@ -29,10 +29,19 @@ namespace BridgeDeck
             Doc = uiapp.ActiveUIDocument.Document;
         }
 
-        public PolyCurve GetPolyCurve()
+        public PolyCurve RoadAxis { get; set; }
+
+        private string _roadAxisElemIds;
+        public string RoadAxisElemIds
         {
-            var roadAxis = new PolyCurve(RevitGeometryUtils.GetCurvesByRectangle(Uiapp));
-            return roadAxis;
+            get => _roadAxisElemIds;
+            set => _roadAxisElemIds = value;
+        }
+
+        public void GetPolyCurve()
+        {
+            var curves = RevitGeometryUtils.GetCurvesByRectangle(Uiapp, out _roadAxisElemIds);
+            RoadAxis = new PolyCurve(curves);
         }
     }
 }
