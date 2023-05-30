@@ -74,6 +74,17 @@ namespace BridgeDeck.ViewModels
 
         #endregion
 
+        #region Элемент границы 1
+
+        private string _boundCurveId1;
+        public string BoundCurveId1
+        {
+            get => _boundCurveId1;
+            set => Set(ref _boundCurveId1, value);
+        }
+
+        #endregion
+
         #region Команды
 
         #region Получение оси трассы
@@ -133,6 +144,25 @@ namespace BridgeDeck.ViewModels
 
         #endregion
 
+        #region Получение границы плиты 1
+
+        public ICommand GetBoundCurve1 { get; }
+
+        private void OnGetBoundCurve1CommandExecuted(object parameter)
+        {
+            RevitCommand.mainView.Hide();
+            RevitModel.GetBoundCurve1();
+            BoundCurveId1 = RevitModel.BoundCurveId1;
+            RevitCommand.mainView.ShowDialog();
+        }
+
+        public bool CanGetBoundCurve1CommandExecute(object parameter)
+        {
+            return true;
+        }
+
+        #endregion
+
 
         #endregion
 
@@ -147,6 +177,8 @@ namespace BridgeDeck.ViewModels
             GetRoadLines1 = new LambdaCommand(OnGetRoadLines1CommandExecuted, CanGetRoadLines1CommandExecute);
 
             GetRoadLines2 = new LambdaCommand(OnGetRoadLines2CommandExecuted, CanGetRoadLines2CommandExecute);
+
+            GetBoundCurve1 = new LambdaCommand(OnGetBoundCurve1CommandExecuted, CanGetBoundCurve1CommandExecute);
 
             #endregion
         }

@@ -83,5 +83,23 @@ namespace BridgeDeck
         }
 
         #endregion
+
+        #region Граница плиты 1
+
+        public Curve BoundCurve1 { get; set; }
+
+        private string _boundCurveId1;
+        public string BoundCurveId1
+        {
+            get => _boundCurveId1;
+            set => _boundCurveId1 = value;
+        }
+
+        public void GetBoundCurve1()
+        {
+            BoundCurve1 = RevitGeometryUtils.GetBoundCurve(Uiapp, out _boundCurveId1);
+        }
+
+        #endregion
     }
 }

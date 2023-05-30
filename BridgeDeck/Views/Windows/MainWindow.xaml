@@ -58,6 +58,18 @@
                         HorizontalAlignment="Center"
                         Margin="0,10,0,0"
                         Command="{Binding GetRoadLines2}"/>
+                <TextBlock Text="Граница плиты 1" 
+                           Width="150"
+                           Height="15"
+                           HorizontalAlignment="Center"
+                           Margin="0,10,0,0"
+                           TextAlignment="Center"/>
+                <Button Content="Выбрать"
+                        Width="120"
+                        Height="20"
+                        HorizontalAlignment="Center"
+                        Margin="0,10,0,0"
+                        Command="{Binding GetBoundCurve1}"/>
             </StackPanel>
         </GroupBox>
         <GroupBox  Grid.Column="1"
@@ -78,6 +90,13 @@
                          HorizontalAlignment="Center"
                          Margin="0,15,0,0" />
                 <TextBox Text="{Binding RoadLineElemIds2}"
+                         IsReadOnly="True"
+                         TextWrapping="Wrap"
+                         Width="150"
+                         Height="40"
+                         HorizontalAlignment="Center"
+                         Margin="0,15,0,0" />
+                <TextBox Text="{Binding BoundCurveId1}"
                          IsReadOnly="True"
                          TextWrapping="Wrap"
                          Width="150"

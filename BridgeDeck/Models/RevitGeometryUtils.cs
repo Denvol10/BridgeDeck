@@ -31,7 +31,7 @@ namespace BridgeDeck.Models
         public static List<Line> GetRoadLines(UIApplication uiapp, out string elementIds)
         {
             Selection sel = uiapp.ActiveUIDocument.Selection;
-            var selectedOnRoadSurface = sel.PickObjects(ObjectType.Element, "Select Road Lines 1");
+            var selectedOnRoadSurface = sel.PickObjects(ObjectType.Element, "Select Road Lines");
             var directShapesRoadSurface = selectedOnRoadSurface.Select(r => uiapp.ActiveUIDocument.Document.GetElement(r))
                                                                .OfType<DirectShape>();
             elementIds = ElementIdToString(directShapesRoadSurface);
@@ -39,6 +39,19 @@ namespace BridgeDeck.Models
             var linesRoadSurface = curvesRoadSurface.OfType<Line>().ToList();
 
             return linesRoadSurface;
+        }
+
+        // Получение линий границ плиты
+        public static Curve GetBoundCurve(UIApplication uiapp, out string elementIds)
+        {
+            Selection sel = uiapp.ActiveUIDocument.Selection;
+            var boundCurvePicked = sel.PickObject(ObjectType.Element, "Выберете линию границы плиты");
+            Options options = new Options();
+            Element curveElement = uiapp.ActiveUIDocument.Document.GetElement(boundCurvePicked);
+            elementIds = "Id" + curveElement.Id.IntegerValue;
+            var boundCurve = curveElement.get_Geometry(options).First() as Curve;
+
+            return boundCurve;
         }
 
         // Получение линий на основе элементов DirectShape
