@@ -11,6 +11,7 @@ using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.DB.Architecture;
 using System.Collections.ObjectModel;
 using BridgeDeck.Models;
+using BridgeDeck.ViewModels;
 
 namespace BridgeDeck
 {
@@ -30,7 +31,6 @@ namespace BridgeDeck
         }
 
         #region Ось трассы
-
         public PolyCurve RoadAxis { get; set; }
 
         private string _roadAxisElemIds;
@@ -45,11 +45,9 @@ namespace BridgeDeck
             var curves = RevitGeometryUtils.GetCurvesByRectangle(Uiapp, out _roadAxisElemIds);
             RoadAxis = new PolyCurve(curves);
         }
-
         #endregion
 
         #region Линия на поверхности 1
-
         public List<Line> RoadLines1 { get; set; }
 
         private string _roadLineElemIds1;
@@ -63,11 +61,9 @@ namespace BridgeDeck
         {
             RoadLines1 = RevitGeometryUtils.GetRoadLines(Uiapp, out _roadLineElemIds1);
         }
-
         #endregion
 
         #region Линия на поверхности 2
-
         public List<Line> RoadLines2 { get; set; }
 
         private string _roadLineElemIds2;
@@ -81,11 +77,9 @@ namespace BridgeDeck
         {
             RoadLines2 = RevitGeometryUtils.GetRoadLines(Uiapp, out _roadLineElemIds2);
         }
-
         #endregion
 
         #region Граница плиты 1
-
         public Curve BoundCurve1 { get; set; }
 
         private string _boundCurveId1;
@@ -99,7 +93,22 @@ namespace BridgeDeck
         {
             BoundCurve1 = RevitGeometryUtils.GetBoundCurve(Uiapp, out _boundCurveId1);
         }
+        #endregion
 
+        #region Граница плиты 2
+        public Curve BoundCurve2 { get; set; }
+
+        private string _boundCurveId2;
+        public string BoundCurveId2
+        {
+            get => _boundCurveId2;
+            set => _boundCurveId2 = value;
+        }
+        
+        public void GetBoundCurve2()
+        {
+            BoundCurve2 = RevitGeometryUtils.GetBoundCurve(Uiapp, out _boundCurveId2);
+        }
         #endregion
     }
 }

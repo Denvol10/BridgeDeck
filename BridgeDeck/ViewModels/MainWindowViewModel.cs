@@ -27,7 +27,6 @@ namespace BridgeDeck.ViewModels
         }
 
         #region Заголовок
-
         private string _title = "Bridge Deck";
 
         public string Title
@@ -35,11 +34,9 @@ namespace BridgeDeck.ViewModels
             get => _title;
             set => Set(ref _title, value);
         }
-
         #endregion
 
         #region Элементы оси трассы
-
         private string _roadAxisElemIds;
 
         public string RoadAxisElemIds
@@ -47,11 +44,9 @@ namespace BridgeDeck.ViewModels
             get => _roadAxisElemIds;
             set => Set(ref _roadAxisElemIds, value);
         }
-
         #endregion
 
         #region Элементы линии на поверхности 1
-
         private string _roadLineElemIds1;
 
         public string RoadLineElemIds1
@@ -59,11 +54,9 @@ namespace BridgeDeck.ViewModels
             get => _roadLineElemIds1;
             set => Set(ref _roadLineElemIds1, value);
         }
-
         #endregion
 
         #region Элементы линии на поверхности 2
-
         private string _roadLineElemIds2;
 
         public string RoadLineElemIds2
@@ -71,24 +64,29 @@ namespace BridgeDeck.ViewModels
             get => _roadLineElemIds2;
             set => Set(ref _roadLineElemIds2, value);
         }
-
         #endregion
 
         #region Элемент границы 1
-
         private string _boundCurveId1;
         public string BoundCurveId1
         {
             get => _boundCurveId1;
             set => Set(ref _boundCurveId1, value);
         }
+        #endregion
 
+        #region Элемент границы 2
+        private string _boundCurveId2;
+        public string BoundCurveId2
+        {
+            get => _boundCurveId2;
+            set => Set(ref _boundCurveId2, value);
+        }
         #endregion
 
         #region Команды
 
         #region Получение оси трассы
-
         public ICommand GetRoadAxis { get; }
 
         private void OnGetRoadAxisCommandExecuted(object parameter)
@@ -103,11 +101,9 @@ namespace BridgeDeck.ViewModels
         {
             return true;
         }
-
         #endregion
 
         #region Получение линии на поверхности дороги 1
-
         public ICommand GetRoadLines1 { get; }
 
         private void OnGetRoadLines1CommandExecuted(object parameter)
@@ -122,11 +118,9 @@ namespace BridgeDeck.ViewModels
         {
             return true;
         }
-
         #endregion
 
         #region Получение линии на поверхности дороги 2
-
         public ICommand GetRoadLines2 { get; }
 
         private void OnGetRoadLines2CommandExecuted(object parameter)
@@ -141,11 +135,9 @@ namespace BridgeDeck.ViewModels
         {
             return true;
         }
-
         #endregion
 
         #region Получение границы плиты 1
-
         public ICommand GetBoundCurve1 { get; }
 
         private void OnGetBoundCurve1CommandExecuted(object parameter)
@@ -160,18 +152,31 @@ namespace BridgeDeck.ViewModels
         {
             return true;
         }
-
         #endregion
 
+        #region Получение границы плиты 2
+        public ICommand GetBoundCurve2 { get; }
 
+        private void OnGetBoundCurve2CommandExecuted(object parameter)
+        {
+            RevitCommand.mainView.Hide();
+            RevitModel.GetBoundCurve2();
+            BoundCurveId2 = RevitModel.BoundCurveId2;
+            RevitCommand.mainView.ShowDialog();
+        }
+
+        private bool CanGetBoundCurve2CommandExecute(object parameter)
+        {
+            return true;
+        }
         #endregion
 
+        #endregion
 
         #region Конструктор класса MainWindowViewModel
         public MainWindowViewModel()
         {
             #region Команды
-
             GetRoadAxis = new LambdaCommand(OnGetRoadAxisCommandExecuted, CanGetRoadAxisCommandExecute);
 
             GetRoadLines1 = new LambdaCommand(OnGetRoadLines1CommandExecuted, CanGetRoadLines1CommandExecute);
@@ -180,6 +185,7 @@ namespace BridgeDeck.ViewModels
 
             GetBoundCurve1 = new LambdaCommand(OnGetBoundCurve1CommandExecuted, CanGetBoundCurve1CommandExecute);
 
+            GetBoundCurve2 = new LambdaCommand(OnGetBoundCurve2CommandExecuted, CanGetBoundCurve2CommandExecute);
             #endregion
         }
         #endregion
