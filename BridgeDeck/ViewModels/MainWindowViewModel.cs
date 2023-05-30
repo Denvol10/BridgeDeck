@@ -62,6 +62,18 @@ namespace BridgeDeck.ViewModels
 
         #endregion
 
+        #region Элементы линии на поверхности 2
+
+        private string _roadLineElemIds2;
+
+        public string RoadLineElemIds2
+        {
+            get => _roadLineElemIds2;
+            set => Set(ref _roadLineElemIds2, value);
+        }
+
+        #endregion
+
         #region Команды
 
         #region Получение оси трассы
@@ -102,6 +114,25 @@ namespace BridgeDeck.ViewModels
 
         #endregion
 
+        #region Получение линии на поверхности дороги 2
+
+        public ICommand GetRoadLines2 { get; }
+
+        private void OnGetRoadLines2CommandExecuted(object parameter)
+        {
+            RevitCommand.mainView.Hide();
+            RevitModel.GetRoadLine2();
+            RoadLineElemIds2 = RevitModel.RoadLineElemIds2;
+            RevitCommand.mainView.ShowDialog();
+        }
+
+        private bool CanGetRoadLines2CommandExecute(object parameter)
+        {
+            return true;
+        }
+
+        #endregion
+
 
         #endregion
 
@@ -114,6 +145,8 @@ namespace BridgeDeck.ViewModels
             GetRoadAxis = new LambdaCommand(OnGetRoadAxisCommandExecuted, CanGetRoadAxisCommandExecute);
 
             GetRoadLines1 = new LambdaCommand(OnGetRoadLines1CommandExecuted, CanGetRoadLines1CommandExecute);
+
+            GetRoadLines2 = new LambdaCommand(OnGetRoadLines2CommandExecuted, CanGetRoadLines2CommandExecute);
 
             #endregion
         }
