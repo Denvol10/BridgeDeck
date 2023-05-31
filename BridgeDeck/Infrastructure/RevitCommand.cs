@@ -10,6 +10,8 @@ using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.DB.Architecture;
 using BridgeDeck.ViewModels;
+using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace BridgeDeck.Infrastructure
 {
@@ -28,8 +30,8 @@ namespace BridgeDeck.Infrastructure
 
             try
             {
-                MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
-                mainWindowViewModel.RevitModel = new RevitModelForfard(uiapp);
+                var RevitModel = new RevitModelForfard(uiapp);
+                MainWindowViewModel mainWindowViewModel = new MainWindowViewModel(RevitModel);
 
                 System.Diagnostics.Process proc = System.Diagnostics.Process.GetCurrentProcess();
 

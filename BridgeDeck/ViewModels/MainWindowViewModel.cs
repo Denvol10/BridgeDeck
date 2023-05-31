@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using BridgeDeck.Infrastructure;
 using BridgeDeck.Models;
+using System.Windows;
 
 namespace BridgeDeck.ViewModels
 {
@@ -81,6 +82,16 @@ namespace BridgeDeck.ViewModels
         {
             get => _boundCurveId2;
             set => Set(ref _boundCurveId2, value);
+        }
+        #endregion
+
+        #region Список семейств и их типоразмеров
+        private ObservableCollection<string> _genericModelFamilySymbols = new ObservableCollection<string>();
+        public ObservableCollection<string> GenericModelFamilySymbols
+        {
+            get => _genericModelFamilySymbols;
+
+            set => Set(ref _genericModelFamilySymbols, value);
         }
         #endregion
 
@@ -174,8 +185,12 @@ namespace BridgeDeck.ViewModels
         #endregion
 
         #region Конструктор класса MainWindowViewModel
-        public MainWindowViewModel()
+        public MainWindowViewModel(RevitModelForfard revitModel)
         {
+            RevitModel = revitModel;
+
+            GenericModelFamilySymbols = RevitModel.GetFamilies();
+
             #region Команды
             GetRoadAxis = new LambdaCommand(OnGetRoadAxisCommandExecuted, CanGetRoadAxisCommandExecute);
 
@@ -188,6 +203,9 @@ namespace BridgeDeck.ViewModels
             GetBoundCurve2 = new LambdaCommand(OnGetBoundCurve2CommandExecuted, CanGetBoundCurve2CommandExecute);
             #endregion
         }
+
+        public MainWindowViewModel()
+        { }
         #endregion
     }
 }

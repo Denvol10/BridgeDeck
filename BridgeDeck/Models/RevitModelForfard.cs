@@ -12,6 +12,8 @@ using Autodesk.Revit.DB.Architecture;
 using System.Collections.ObjectModel;
 using BridgeDeck.Models;
 using BridgeDeck.ViewModels;
+using BridgeDeck.Infrastructure;
+using System.Windows.Controls;
 
 namespace BridgeDeck
 {
@@ -108,6 +110,22 @@ namespace BridgeDeck
         public void GetBoundCurve2()
         {
             BoundCurve2 = RevitGeometryUtils.GetBoundCurve(Uiapp, out _boundCurveId2);
+        }
+        #endregion
+
+        #region Список типоразмеров семейств
+        public ObservableCollection<string> GetFamilies()
+        {
+            var familySymbolNames = new ObservableCollection<string>();
+
+
+            var allFamilies = new FilteredElementCollector(Doc).OfClass(typeof(Family)).OfType<Family>();
+            foreach (var family in allFamilies)
+            {
+                familySymbolNames.Add(family.Name);
+            }
+
+            return familySymbolNames;
         }
         #endregion
     }

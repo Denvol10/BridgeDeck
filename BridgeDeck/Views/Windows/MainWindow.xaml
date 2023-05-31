@@ -82,6 +82,9 @@
                         HorizontalAlignment="Center"
                         Margin="0,10,0,0" 
                         Command="{Binding GetBoundCurve2}"/>
+                <ComboBox Width="150"
+                          Margin="0,10,0,0"
+                          ItemsSource="{Binding GenericModelFamilySymbols}" />
             </StackPanel>
         </GroupBox>
         <GroupBox  Grid.Column="1"
