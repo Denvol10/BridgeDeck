@@ -80,53 +80,67 @@
                         Width="120"
                         Height="20"
                         HorizontalAlignment="Center"
-                        Margin="0,10,0,0" 
-                        Command="{Binding GetBoundCurve2}"/>
+                        Margin="0,10,0,0"
+                        Command="{Binding GetBoundCurve2}" />
+                <TextBlock Text="Семейство сечения"
+                           Width="150"
+                           Height="15"
+                           HorizontalAlignment="Center"
+                           Margin="0,10,0,0"
+                           TextAlignment="Center" />
                 <ComboBox Width="150"
                           Margin="0,10,0,0"
                           ItemsSource="{Binding GenericModelFamilySymbols}" />
             </StackPanel>
         </GroupBox>
-        <GroupBox  Grid.Column="1"
-                   Header="Выбранные элементы">
-            <StackPanel>
-                <TextBox Text="{Binding RoadAxisElemIds, Mode=OneWay}"
-                         IsReadOnly="True"
-                         TextWrapping="Wrap"
-                         Width="150"
-                         Height="40"
-                         HorizontalAlignment="Center"
-                         Margin="0,15,0,0" />
-                <TextBox Text="{Binding RoadLineElemIds1, Mode=OneWay}"
-                         IsReadOnly="True"
-                         TextWrapping="Wrap"
-                         Width="150"
-                         Height="40"
-                         HorizontalAlignment="Center"
-                         Margin="0,15,0,0" />
-                <TextBox Text="{Binding RoadLineElemIds2}"
-                         IsReadOnly="True"
-                         TextWrapping="Wrap"
-                         Width="150"
-                         Height="40"
-                         HorizontalAlignment="Center"
-                         Margin="0,15,0,0" />
-                <TextBox Text="{Binding BoundCurveId1}"
-                         IsReadOnly="True"
-                         TextWrapping="Wrap"
-                         Width="150"
-                         Height="40"
-                         HorizontalAlignment="Center"
-                         Margin="0,15,0,0" />
-                <TextBox Text="{Binding BoundCurveId2}"
-                         IsReadOnly="True"
-                         TextWrapping="Wrap"
-                         Width="150"
-                         Height="40"
-                         HorizontalAlignment="Center"
-                         Margin="0,15,0,0" />
-
-            </StackPanel>
-        </GroupBox>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="310" />
+                <RowDefinition Height="100" />
+            </Grid.RowDefinitions>
+            <GroupBox Grid.Row="0"
+                      Header="Выбранные элементы">
+                <StackPanel>
+                    <TextBox Text="{Binding RoadAxisElemIds, Mode=OneWay}"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             Width="150"
+                             Height="40"
+                             HorizontalAlignment="Center"
+                             Margin="0,15,0,0" />
+                    <TextBox Text="{Binding RoadLineElemIds1, Mode=OneWay}"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             Width="150"
+                             Height="40"
+                             HorizontalAlignment="Center"
+                             Margin="0,15,0,0" />
+                    <TextBox Text="{Binding RoadLineElemIds2}"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             Width="150"
+                             Height="40"
+                             HorizontalAlignment="Center"
+                             Margin="0,15,0,0" />
+                    <TextBox Text="{Binding BoundCurveId1}"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             Width="150"
+                             Height="40"
+                             HorizontalAlignment="Center"
+                             Margin="0,15,0,0" />
+                    <TextBox Text="{Binding BoundCurveId2}"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             Width="150"
+                             Height="40"
+                             HorizontalAlignment="Center"
+                             Margin="0,15,0,0" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Header="Создать элементы">
+                
+            </GroupBox>
+        </Grid>
     </Grid>
 </Window>
