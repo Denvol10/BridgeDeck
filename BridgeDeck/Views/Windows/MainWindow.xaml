@@ -90,7 +90,8 @@
                            TextAlignment="Center" />
                 <ComboBox Width="150"
                           Margin="0,10,0,0"
-                          ItemsSource="{Binding GenericModelFamilySymbols}" />
+                          ItemsSource="{Binding GenericModelFamilySymbols}"
+                          SelectedItem="{Binding FamilySymbolName}" />
             </StackPanel>
         </GroupBox>
         <Grid Grid.Column="1">
@@ -138,8 +139,9 @@
                              Margin="0,15,0,0" />
                 </StackPanel>
             </GroupBox>
-            <GroupBox Grid.Row="1" Header="Создать элементы">
-                
+            <GroupBox Grid.Row="1"
+                      Header="Создать элементы">
+
             </GroupBox>
         </Grid>
     </Grid>

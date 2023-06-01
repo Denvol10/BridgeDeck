@@ -90,8 +90,16 @@ namespace BridgeDeck.ViewModels
         public ObservableCollection<string> GenericModelFamilySymbols
         {
             get => _genericModelFamilySymbols;
-
             set => Set(ref _genericModelFamilySymbols, value);
+        }
+        #endregion
+
+        #region Выбранный типоразмер семейства
+        private string _familySymbolName;
+        public string FamilySymbolName
+        {
+            get => _familySymbolName;
+            set => Set(ref _familySymbolName, value);
         }
         #endregion
 
@@ -189,7 +197,7 @@ namespace BridgeDeck.ViewModels
         {
             RevitModel = revitModel;
 
-            GenericModelFamilySymbols = RevitModel.GetFamilies();
+            GenericModelFamilySymbols = RevitModel.GetFamilySymbolNames();
 
             #region Команды
             GetRoadAxis = new LambdaCommand(OnGetRoadAxisCommandExecuted, CanGetRoadAxisCommandExecute);
@@ -201,6 +209,7 @@ namespace BridgeDeck.ViewModels
             GetBoundCurve1 = new LambdaCommand(OnGetBoundCurve1CommandExecuted, CanGetBoundCurve1CommandExecute);
 
             GetBoundCurve2 = new LambdaCommand(OnGetBoundCurve2CommandExecuted, CanGetBoundCurve2CommandExecute);
+
             #endregion
         }
 

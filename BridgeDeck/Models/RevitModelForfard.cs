@@ -113,8 +113,8 @@ namespace BridgeDeck
         }
         #endregion
 
-        #region Список типоразмеров семейств
-        public ObservableCollection<string> GetFamilies()
+        #region Список названий типоразмеров семейств
+        public ObservableCollection<string> GetFamilySymbolNames()
         {
             var familySymbolNames = new ObservableCollection<string>();
             var allFamilies = new FilteredElementCollector(Doc).OfClass(typeof(Family)).OfType<Family>();
@@ -132,6 +132,26 @@ namespace BridgeDeck
             }
 
             return familySymbolNames;
+        }
+        #endregion
+
+        #region Получение типоразмера по имени
+        public FamilySymbol GetFamilySymbolByName(string familyAndSymbolName)
+        {
+            var familyName = familyAndSymbolName.Split('-').First();
+            var symbolName = familyAndSymbolName.Split('-').Last();
+
+            Family family = new FilteredElementCollector(Doc).OfClass(typeof(Family)).Where(f => f.Name == familyName).First() as Family;
+            var symbolIds = family.GetFamilySymbolIds();
+            foreach (var symbolId in symbolIds)
+            {
+                FamilySymbol fSymbol = (FamilySymbol)Doc.GetElement(symbolId);
+                if (fSymbol.get_Parameter(BuiltInParameter.SYMBOL_NAME_PARAM).AsString() == symbolName)
+                {
+                    return fSymbol;
+                }
+            }
+            return null;
         }
         #endregion
     }
