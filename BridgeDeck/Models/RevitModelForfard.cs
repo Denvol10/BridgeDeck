@@ -148,7 +148,7 @@ namespace BridgeDeck
 
             FamilySymbol fSymbol = GetFamilySymbolByName(familyAndSymbolName);
 
-            var pointParameters = GenerateParameters(boundParameter1, boundParameter2, 10);
+            var pointParameters = GenerateParameters(boundParameter1, boundParameter2);
 
             var creationDataList = new List<Autodesk.Revit.Creation.FamilyInstanceCreationData>();
 
@@ -258,10 +258,14 @@ namespace BridgeDeck
         #endregion
 
         #region Генератор параметров на поликривой
-        private List<double> GenerateParameters(double bound1, double bound2, int count)
+        private List<double> GenerateParameters(double bound1, double bound2)
         {
             var parameters = new List<double>
             { bound1 };
+
+            double approxStep = UnitUtils.ConvertToInternalUnits(1, UnitTypeId.Meters);
+
+            int count = (int)(Math.Abs(bound2 - bound1) / approxStep + 1);
 
             double start = bound1;
 
