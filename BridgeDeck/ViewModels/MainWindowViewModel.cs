@@ -214,6 +214,20 @@ namespace BridgeDeck.ViewModels
         }
         #endregion
 
+        #region Закрыть окно
+        public ICommand CloseWindow { get; }
+
+        private void OnCloseWindowCommandExecuted(object parameter)
+        {
+            RevitCommand.mainView.Close();
+        }
+
+        private bool CanCloseWindowCommandExecute(object parameter)
+        {
+            return true;
+        }
+        #endregion
+
         #endregion
 
         #region Конструктор класса MainWindowViewModel
@@ -236,6 +250,8 @@ namespace BridgeDeck.ViewModels
 
             CreateAdaptiveFamilyInstances = new LambdaCommand(OnCreateAdaptiveFamilyInstancesCommandExecuted,
                                                               CanCreateAdaptiveFamilyInstancesCommandExecute);
+
+            CloseWindow = new LambdaCommand(OnCloseWindowCommandExecuted, CanCloseWindowCommandExecute);
             #endregion
         }
 
