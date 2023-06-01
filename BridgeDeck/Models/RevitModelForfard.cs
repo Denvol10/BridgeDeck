@@ -135,8 +135,110 @@ namespace BridgeDeck
         }
         #endregion
 
+        #region Построение экземпляров семейства адаптивного сечения
+        public void CreateAdaptivePointsFamilyInstanse(string familyAndSymbolName, int countShapeHandlePoints)
+        {
+            Curve curveInPolyCurve1 = null;
+            double boundParameter1 = 0;
+            RoadAxis.Intersect(BoundCurve1, out curveInPolyCurve1, out boundParameter1);
+
+            Curve curveInPolyCurve2 = null;
+            double boundParameter2 = 0;
+            RoadAxis.Intersect(BoundCurve2, out curveInPolyCurve2, out boundParameter2);
+
+            FamilySymbol fSymbol = GetFamilySymbolByName(familyAndSymbolName);
+
+            var pointParameters = GenerateParameters(boundParameter1, boundParameter2, 10);
+
+            var creationDataList = new List<Autodesk.Revit.Creation.FamilyInstanceCreationData>();
+
+            foreach(var parameter in pointParameters)
+            {
+                var familyInstancePoints = new List<XYZ>();
+
+                Plane plane = RoadAxis.GetPlaneOnPolycurve(parameter);
+                Line lineOnRoad1 = RevitGeometryUtils.GetIntersectCurve(RoadLines1, plane);
+                Line lineOnRoad2 = RevitGeometryUtils.GetIntersectCurve(RoadLines2, plane);
+
+                XYZ v1 = lineOnRoad1.GetEndPoint(0) - lineOnRoad1.GetEndPoint(1);
+
+                double lineParam1;
+                double lineParam2;
+                XYZ point1 = RevitGeometryUtils.LinePlaneIntersection(lineOnRoad1, plane, out lineParam1);
+                XYZ point2 = RevitGeometryUtils.LinePlaneIntersection(lineOnRoad2, plane, out lineParam2);
+                XYZ lineDirection = point1 - point2;
+                Line projectionLine = Line.CreateUnbound(point1, lineDirection);
+                Line verticalLine = Line.CreateUnbound(plane.Origin, XYZ.BasisZ);
+
+                IntersectionResultArray interResult;
+                var compResult = projectionLine.Intersect(verticalLine, out interResult);
+                XYZ firstPoint = null;
+                if (compResult == SetComparisonResult.Overlap)
+                {
+                    foreach(var elem in interResult)
+                    {
+                        if(elem is IntersectionResult result)
+                        {
+                            firstPoint = result.XYZPoint;
+                            familyInstancePoints.Add(firstPoint);
+                        }
+                    }
+                }
+
+                double distanceBetweenPoints = UnitUtils.ConvertToInternalUnits(1, UnitTypeId.Meters);
+                XYZ orthVector = plane.XVec.Normalize() * distanceBetweenPoints;
+                bool reverseFamilyInstanse = false;
+                if (reverseFamilyInstanse)
+                {
+                    orthVector = orthVector.Negate();
+                }
+                XYZ secondPoint = firstPoint + orthVector;
+                familyInstancePoints.Add(secondPoint);
+
+                XYZ upVector = orthVector.CrossProduct(v1).Normalize() * distanceBetweenPoints;
+                if(upVector.Z < 0)
+                {
+                    upVector = upVector.Negate();
+                }
+                XYZ thirdPoint = firstPoint + upVector;
+                familyInstancePoints.Add(thirdPoint);
+
+                // Добавляем нулевые точки вместо точек ручек формы
+                if(countShapeHandlePoints != 0)
+                {
+                    for(int i = 0; i < countShapeHandlePoints; i++)
+                    {
+                        familyInstancePoints.Add(XYZ.Zero);
+                    }
+                }
+
+                creationDataList.Add(new Autodesk.Revit.Creation.FamilyInstanceCreationData(fSymbol, familyInstancePoints));
+            }
+
+            using (Transaction trans = new Transaction(Doc, "Create Family Instances"))
+            {
+                trans.Start();
+                if(!fSymbol.IsActive)
+                {
+                    fSymbol.Activate();
+                }
+                if(Doc.IsFamilyDocument)
+                {
+                    Doc.FamilyCreate.NewFamilyInstances2(creationDataList);
+                }
+                else
+                {
+                    Doc.Create.NewFamilyInstances2(creationDataList);
+                }
+                trans.Commit();
+            }
+
+        }
+
+        #endregion
+
         #region Получение типоразмера по имени
-        public FamilySymbol GetFamilySymbolByName(string familyAndSymbolName)
+        private FamilySymbol GetFamilySymbolByName(string familyAndSymbolName)
         {
             var familyName = familyAndSymbolName.Split('-').First();
             var symbolName = familyAndSymbolName.Split('-').Last();
@@ -152,6 +254,27 @@ namespace BridgeDeck
                 }
             }
             return null;
+        }
+        #endregion
+
+        #region Генератор параметров на поликривой
+        private List<double> GenerateParameters(double bound1, double bound2, int count)
+        {
+            var parameters = new List<double>
+            { bound1 };
+
+            double start = bound1;
+
+            double step = (bound2 - bound1) / (count - 1);
+            for (int i = 0; i < count - 2; i++)
+            {
+                parameters.Add(start + step);
+                start += step;
+            }
+
+            parameters.Add(bound2);
+
+            return parameters;
         }
         #endregion
     }

@@ -199,6 +199,21 @@ namespace BridgeDeck.ViewModels
         }
         #endregion
 
+        #region Создать экземпляры в модели
+        public ICommand CreateAdaptiveFamilyInstances { get; }
+
+        private void OnCreateAdaptiveFamilyInstancesCommandExecuted(object parameter)
+        {
+            RevitModel.CreateAdaptivePointsFamilyInstanse(FamilySymbolName, CountShapeHandlePoints);
+            RevitCommand.mainView.Close();
+        }
+
+        private bool CanCreateAdaptiveFamilyInstancesCommandExecute(object parameter)
+        {
+            return true;
+        }
+        #endregion
+
         #endregion
 
         #region Конструктор класса MainWindowViewModel
@@ -219,6 +234,8 @@ namespace BridgeDeck.ViewModels
 
             GetBoundCurve2 = new LambdaCommand(OnGetBoundCurve2CommandExecuted, CanGetBoundCurve2CommandExecute);
 
+            CreateAdaptiveFamilyInstances = new LambdaCommand(OnCreateAdaptiveFamilyInstancesCommandExecuted,
+                                                              CanCreateAdaptiveFamilyInstancesCommandExecute);
             #endregion
         }
 

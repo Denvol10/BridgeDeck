@@ -97,7 +97,7 @@
                            Height="15"
                            HorizontalAlignment="Center"
                            Margin="0,10,0,0"
-                           TextAlignment="Center"/>
+                           TextAlignment="Center" />
                 <DockPanel VerticalAlignment="Center"
                            Margin="0,10,0,0">
                     <TextBox Text="{Binding CountShapeHandlePoints}"
@@ -108,7 +108,7 @@
                             TickPlacement="BottomRight"
                             TickFrequency="1"
                             IsSnapToTickEnabled="True"
-                            Value="{Binding CountShapeHandlePoints}"/>
+                            Value="{Binding CountShapeHandlePoints}" />
                 </DockPanel>
             </StackPanel>
         </GroupBox>
@@ -159,7 +159,13 @@
             </GroupBox>
             <GroupBox Grid.Row="1"
                       Header="Создать элементы">
-
+                <Button Content="Создать" 
+                        Width="70"
+                        Height="20"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="10,20,0,0"
+                        Command="{Binding CreateAdaptiveFamilyInstances}"/>
             </GroupBox>
         </Grid>
     </Grid>
