@@ -119,9 +119,16 @@ namespace BridgeDeck
             var familySymbolNames = new ObservableCollection<string>();
             var allFamilies = new FilteredElementCollector(Doc).OfClass(typeof(Family)).OfType<Family>();
             var genericModelFamilies = allFamilies.Where(f => f.FamilyCategory.Id.IntegerValue == (int)BuiltInCategory.OST_GenericModel);
+            if (genericModelFamilies.Count() == 0)
+                return familySymbolNames;
+
             foreach (var family in genericModelFamilies)
             {
-                familySymbolNames.Add(family.Name);
+                foreach(var symbolId in family.GetFamilySymbolIds())
+                {
+                    var familySymbol = Doc.GetElement(symbolId);
+                    familySymbolNames.Add($"{family.Name}-{familySymbol.Name}");
+                }
             }
 
             return familySymbolNames;
