@@ -103,6 +103,15 @@ namespace BridgeDeck.ViewModels
         }
         #endregion
 
+        #region Количество точек ручек формы
+        private int _countShapeHandlePoints = 1;
+        public int CountShapeHandlePoints
+        {
+            get => _countShapeHandlePoints;
+            set => Set(ref _countShapeHandlePoints, value);
+        }
+        #endregion
+
         #region Команды
 
         #region Получение оси трассы

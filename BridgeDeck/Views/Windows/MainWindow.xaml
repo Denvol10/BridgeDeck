@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:BridgeDeck"
         mc:Ignorable="d"
         Title="{Binding Title}"
-        Height="450"
+        Height="470"
         Width="400"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
@@ -92,12 +92,30 @@
                           Margin="0,10,0,0"
                           ItemsSource="{Binding GenericModelFamilySymbols}"
                           SelectedItem="{Binding FamilySymbolName}" />
+                <TextBlock Text="Количество точек ручек формы"
+                           Width="180"
+                           Height="15"
+                           HorizontalAlignment="Center"
+                           Margin="0,10,0,0"
+                           TextAlignment="Center"/>
+                <DockPanel VerticalAlignment="Center"
+                           Margin="0,10,0,0">
+                    <TextBox Text="{Binding CountShapeHandlePoints}"
+                             DockPanel.Dock="Right"
+                             TextAlignment="Center"
+                             Width="20" />
+                    <Slider Maximum="2"
+                            TickPlacement="BottomRight"
+                            TickFrequency="1"
+                            IsSnapToTickEnabled="True"
+                            Value="{Binding CountShapeHandlePoints}"/>
+                </DockPanel>
             </StackPanel>
         </GroupBox>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="310" />
-                <RowDefinition Height="100" />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <GroupBox Grid.Row="0"
                       Header="Выбранные элементы">
