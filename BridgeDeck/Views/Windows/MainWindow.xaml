@@ -87,7 +87,7 @@
                 <UniformGrid Columns="2">
                     <UniformGrid Rows="2">
                         <TextBlock Text="Линии на поверхности 1"
-                                   Style="{StaticResource TextAboveButton}" />
+                                   Style="{StaticResource TextAboveButton}" VerticalAlignment="Bottom"/>
                         <Button Style="{StaticResource SelectButton}"
                                 Command="{Binding GetRoadLines1}" />
                     </UniformGrid>
@@ -113,7 +113,7 @@
                 <UniformGrid Columns="2">
                     <UniformGrid Rows="2">
                         <TextBlock Text="Линия границы плиты 1"
-                                   Style="{StaticResource TextAboveButton}" />
+                                   Style="{StaticResource TextAboveButton}" VerticalAlignment="Bottom"/>
                         <Button Style="{StaticResource SelectButton}"
                                 Command="{Binding GetBoundCurve1}" />
                     </UniformGrid>
