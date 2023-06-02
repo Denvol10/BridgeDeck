@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:BridgeDeck"
         mc:Ignorable="d"
         Title="{Binding Title}"
-        Height="580"
+        Height="543"
         Width="350"
         Background="#f0f0f0"
         WindowStartupLocation="CenterScreen"
@@ -135,8 +135,14 @@
         </GroupBox>
         <GroupBox Header="Профиль"
                   Style="{StaticResource BorderGroupStyle}">
-            <UniformGrid Rows="2">
-                <UniformGrid Columns="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <UniformGrid Columns="2"
+                             Grid.Row="0">
                     <UniformGrid Rows="2">
                         <TextBlock Text="Семейство профиля"
                                    Style="{StaticResource TextAboveButton}" />
@@ -164,21 +170,23 @@
                         </DockPanel>
                     </UniformGrid>
                 </UniformGrid>
-                <CheckBox Content="Развернуть профиль"
+                <CheckBox Grid.Row="1"
+                          Content="Развернуть профиль"
                           VerticalAlignment="Center"
                           HorizontalAlignment="Left"
-                          Margin="10,5"
+                          Margin="10,15,0,0"
                           IsChecked="{Binding IsRotate}" />
-            </UniformGrid>
+                <UniformGrid Grid.Row="3"
+                             Columns="2"
+                             Margin="0,12,0,5">
+                    <Button Content="Отмена"
+                            Style="{StaticResource SelectButton}"
+                            Command="{Binding CloseWindow}" />
+                    <Button Content="Создать"
+                            Style="{StaticResource SelectButton}"
+                            Command="{Binding CreateAdaptiveFamilyInstances}" />
+                </UniformGrid>
+            </Grid>
         </GroupBox>
-        <UniformGrid Columns="2"
-                     Margin="0,10">
-            <Button Content="Отмена"
-                    Style="{StaticResource SelectButton}"
-                    Command="{Binding CloseWindow}" />
-            <Button Content="Создать"
-                    Style="{StaticResource SelectButton}"
-                    Command="{Binding CreateAdaptiveFamilyInstances}" />
-        </UniformGrid>
     </StackPanel>
 </Window>
