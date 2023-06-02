@@ -7,174 +7,178 @@
         xmlns:local="clr-namespace:BridgeDeck"
         mc:Ignorable="d"
         Title="{Binding Title}"
-        Height="470"
-        Width="400"
-        WindowStartupLocation="CenterScreen">
+        Height="580"
+        Width="350"
+        Background="#f0f0f0"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
     <Window.DataContext>
         <vm:MainWindowViewModel />
     </Window.DataContext>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
-        </Grid.ColumnDefinitions>
-        <GroupBox Grid.Column="0"
-                  Header="Ввод">
-            <StackPanel>
-                <TextBlock Text="Ось трассы"
-                           Width="120"
-                           Height="15"
-                           HorizontalAlignment="Center"
-                           Margin="0,10,0,0"
-                           TextAlignment="Center" />
-                <Button Content="Выбрать"
-                        Width="120"
-                        Height="20"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        Margin="0,10,0,0"
-                        Command="{Binding GetRoadAxis}" />
-                <TextBlock Text="Линии на поверхности 1"
-                           Width="150"
-                           Height="15"
-                           HorizontalAlignment="Center"
-                           Margin="0,10,0,0"
-                           TextAlignment="Center" />
-                <Button Content="Выбрать"
-                        Width="120"
-                        Height="20"
-                        HorizontalAlignment="Center"
-                        Margin="0,10,0,0"
-                        Command="{Binding GetRoadLines1}" />
-                <TextBlock Text="Линии на поверхности 2"
-                           Width="150"
-                           Height="15"
-                           HorizontalAlignment="Center"
-                           Margin="0,10,0,0"
-                           TextAlignment="Center" />
-                <Button Content="Выбрать"
-                        Width="120"
-                        Height="20"
-                        HorizontalAlignment="Center"
-                        Margin="0,10,0,0"
-                        Command="{Binding GetRoadLines2}" />
-                <TextBlock Text="Граница плиты 1"
-                           Width="150"
-                           Height="15"
-                           HorizontalAlignment="Center"
-                           Margin="0,10,0,0"
-                           TextAlignment="Center" />
-                <Button Content="Выбрать"
-                        Width="120"
-                        Height="20"
-                        HorizontalAlignment="Center"
-                        Margin="0,10,0,0"
-                        Command="{Binding GetBoundCurve1}" />
-                <TextBlock Text="Граница плиты 2"
-                           Width="150"
-                           Height="15"
-                           HorizontalAlignment="Center"
-                           Margin="0,10,0,0"
-                           TextAlignment="Center" />
-                <Button Content="Выбрать"
-                        Width="120"
-                        Height="20"
-                        HorizontalAlignment="Center"
-                        Margin="0,10,0,0"
-                        Command="{Binding GetBoundCurve2}" />
-                <TextBlock Text="Семейство сечения"
-                           Width="150"
-                           Height="15"
-                           HorizontalAlignment="Center"
-                           Margin="0,10,0,0"
-                           TextAlignment="Center" />
-                <ComboBox Width="150"
-                          Margin="0,10,0,0"
-                          ItemsSource="{Binding GenericModelFamilySymbols}"
-                          SelectedItem="{Binding FamilySymbolName}" />
-                <TextBlock Text="Количество точек ручек формы"
-                           Width="180"
-                           Height="15"
-                           HorizontalAlignment="Center"
-                           Margin="0,10,0,0"
-                           TextAlignment="Center" />
-                <DockPanel VerticalAlignment="Center"
-                           Margin="0,10,0,0">
-                    <TextBox Text="{Binding CountShapeHandlePoints}"
-                             DockPanel.Dock="Right"
-                             TextAlignment="Center"
-                             Width="20" />
-                    <Slider Maximum="2"
-                            TickPlacement="BottomRight"
-                            TickFrequency="1"
-                            IsSnapToTickEnabled="True"
-                            Value="{Binding CountShapeHandlePoints}" />
-                </DockPanel>
-            </StackPanel>
+    <Window.Resources>
+        <Style x:Key="TextAboveButton"
+               TargetType="TextBlock">
+            <Setter Property="Height"
+                    Value="15" />
+            <Setter Property="TextAlignment"
+                    Value="Center" />
+        </Style>
+        <Style x:Key="SelectButton"
+               TargetType="Button">
+            <Setter Property="Width"
+                    Value="100" />
+            <Setter Property="Height"
+                    Value="22" />
+            <Setter Property="Content"
+                    Value="Выбрать" />
+            <Setter Property="Background"
+                    Value="#fdfdfd" />
+            <Setter Property="Margin"
+                    Value="0,2,0,0" />
+            <Setter Property="VerticalAlignment"
+                    Value="Bottom" />
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius"
+                            Value="4" />
+                </Style>
+            </Style.Resources>
+        </Style>
+        <Style x:Key="SelectedItemsBox"
+               TargetType="TextBox">
+            <Setter Property="IsReadOnly"
+                    Value="True" />
+            <Setter Property="TextWrapping"
+                    Value="Wrap" />
+            <Setter Property="Width"
+                    Value="155" />
+            <Setter Property="Height"
+                    Value="45" />
+            <Setter Property="VerticalAlignment"
+                    Value="Bottom" />
+        </Style>
+        <Style x:Key="BorderGroupStyle"
+               TargetType="GroupBox">
+            <Setter Property="BorderBrush"
+                    Value="#818181" />
+            <Setter Property="BorderThickness"
+                    Value="0.5" />
+            <Setter Property="Margin"
+                    Value="2,0,3,0" />
+        </Style>
+    </Window.Resources>
+    <StackPanel>
+        <GroupBox Header="Ось трассы"
+                  Style="{StaticResource BorderGroupStyle}">
+            <UniformGrid Columns="2">
+                <UniformGrid Rows="2">
+                    <TextBlock Text="Линии оси трассы"
+                               Style="{StaticResource TextAboveButton}" />
+                    <Button Style="{StaticResource SelectButton}"
+                            Command="{Binding GetRoadAxis}" />
+                </UniformGrid>
+                <TextBox Text="{Binding RoadAxisElemIds, Mode=OneWay}"
+                         Style="{StaticResource SelectedItemsBox}" />
+            </UniformGrid>
         </GroupBox>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="350" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <GroupBox Grid.Row="0"
-                      Header="Выбранные элементы">
-                <StackPanel>
-                    <TextBox Text="{Binding RoadAxisElemIds, Mode=OneWay}"
-                             IsReadOnly="True"
-                             TextWrapping="Wrap"
-                             Width="150"
-                             Height="40"
-                             HorizontalAlignment="Center"
-                             Margin="0,15,0,0" />
-                    <TextBox Text="{Binding RoadLineElemIds1, Mode=OneWay}"
-                             IsReadOnly="True"
-                             TextWrapping="Wrap"
-                             Width="150"
-                             Height="40"
-                             HorizontalAlignment="Center"
-                             Margin="0,15,0,0" />
+        <GroupBox Header="Верх покрытия"
+                  Style="{StaticResource BorderGroupStyle}">
+            <UniformGrid Rows="2">
+                <UniformGrid Columns="2">
+                    <UniformGrid Rows="2">
+                        <TextBlock Text="Линии на поверхности 1"
+                                   Style="{StaticResource TextAboveButton}" />
+                        <Button Style="{StaticResource SelectButton}"
+                                Command="{Binding GetRoadLines1}" />
+                    </UniformGrid>
+                    <TextBox Text="{Binding RoadLineElemIds1}"
+                             Style="{StaticResource SelectedItemsBox}" />
+                </UniformGrid>
+                <UniformGrid Columns="2"
+                             Margin="0,5">
+                    <UniformGrid Rows="2">
+                        <TextBlock Text="Линии на поверхности 2"
+                                   Style="{StaticResource TextAboveButton}" />
+                        <Button Style="{StaticResource SelectButton}"
+                                Command="{Binding GetRoadLines2}" />
+                    </UniformGrid>
                     <TextBox Text="{Binding RoadLineElemIds2}"
-                             IsReadOnly="True"
-                             TextWrapping="Wrap"
-                             Width="150"
-                             Height="40"
-                             HorizontalAlignment="Center"
-                             Margin="0,15,0,0" />
+                             Style="{StaticResource SelectedItemsBox}" />
+                </UniformGrid>
+            </UniformGrid>
+        </GroupBox>
+        <GroupBox Header="Границы плиты"
+                  Style="{StaticResource BorderGroupStyle}">
+            <UniformGrid Rows="2">
+                <UniformGrid Columns="2">
+                    <UniformGrid Rows="2">
+                        <TextBlock Text="Линия границы плиты 1"
+                                   Style="{StaticResource TextAboveButton}" />
+                        <Button Style="{StaticResource SelectButton}"
+                                Command="{Binding GetBoundCurve1}" />
+                    </UniformGrid>
                     <TextBox Text="{Binding BoundCurveId1}"
-                             IsReadOnly="True"
-                             TextWrapping="Wrap"
-                             Width="150"
-                             Height="40"
-                             HorizontalAlignment="Center"
-                             Margin="0,15,0,0" />
+                             Style="{StaticResource SelectedItemsBox}" />
+                </UniformGrid>
+                <UniformGrid Columns="2"
+                             Margin="0,5">
+                    <UniformGrid Rows="2">
+                        <TextBlock Text="Линия границы плиты 2"
+                                   Style="{StaticResource TextAboveButton}" />
+                        <Button Style="{StaticResource SelectButton}"
+                                Command="{Binding GetBoundCurve2}" />
+                    </UniformGrid>
                     <TextBox Text="{Binding BoundCurveId2}"
-                             IsReadOnly="True"
-                             TextWrapping="Wrap"
-                             Width="150"
-                             Height="40"
-                             HorizontalAlignment="Center"
-                             Margin="0,15,0,0" />
-                </StackPanel>
-            </GroupBox>
-            <GroupBox Grid.Row="1"
-                      Header="Создать элементы">
-                <DockPanel>
-                    <Button Content="Отмена"
-                            Width="70"
-                            Height="25"
-                            VerticalAlignment="Center"
-                            Margin="10,0,0,0" 
-                            Command="{Binding CloseWindow}"/>
-                    <Button Content="Создать"
-                            Width="70"
-                            Height="25"
-                            DockPanel.Dock="Right"
-                            VerticalAlignment="Center"
-                            Margin="10,0,0,0"
-                            Command="{Binding CreateAdaptiveFamilyInstances}" />
-                </DockPanel>
-            </GroupBox>
-        </Grid>
-    </Grid>
+                             Style="{StaticResource SelectedItemsBox}" />
+                </UniformGrid>
+            </UniformGrid>
+        </GroupBox>
+        <GroupBox Header="Профиль"
+                  Style="{StaticResource BorderGroupStyle}">
+            <UniformGrid Rows="2">
+                <UniformGrid Columns="2">
+                    <UniformGrid Rows="2">
+                        <TextBlock Text="Семейство профиля"
+                                   Style="{StaticResource TextAboveButton}" />
+                        <ComboBox Width="150"
+                                  Margin="0,2,0,0"
+                                  ItemsSource="{Binding GenericModelFamilySymbols}"
+                                  SelectedItem="{Binding FamilySymbolName}" />
+                    </UniformGrid>
+                    <UniformGrid Rows="2">
+                        <TextBlock Text="Количество ручек формы"
+                                   Style="{StaticResource TextAboveButton}" />
+                        <DockPanel>
+                            <TextBox Text="{Binding CountShapeHandlePoints}"
+                                     DockPanel.Dock="Right"
+                                     TextAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Width="20"
+                                     Height="25" />
+                            <Slider Maximum="2"
+                                    TickPlacement="Both"
+                                    TickFrequency="1"
+                                    IsSnapToTickEnabled="True"
+                                    Value="{Binding CountShapeHandlePoints}"
+                                    Margin="0,0,5,0" />
+                        </DockPanel>
+                    </UniformGrid>
+                </UniformGrid>
+                <CheckBox Content="Развернуть профиль"
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Left"
+                          Margin="10,5"
+                          IsChecked="{Binding IsRotate}" />
+            </UniformGrid>
+        </GroupBox>
+        <UniformGrid Columns="2"
+                     Margin="0,10">
+            <Button Content="Отмена"
+                    Style="{StaticResource SelectButton}"
+                    Command="{Binding CloseWindow}" />
+            <Button Content="Создать"
+                    Style="{StaticResource SelectButton}"
+                    Command="{Binding CreateAdaptiveFamilyInstances}" />
+        </UniformGrid>
+    </StackPanel>
 </Window>

@@ -128,7 +128,7 @@ namespace BridgeDeck
         #endregion
 
         #region Построение экземпляров семейства адаптивного сечения
-        public void CreateAdaptivePointsFamilyInstanse(string familyAndSymbolName, int countShapeHandlePoints)
+        public void CreateAdaptivePointsFamilyInstanse(string familyAndSymbolName, int countShapeHandlePoints, bool rotateFamilyInstanse)
         {
             Curve curveInPolyCurve1 = null;
             double boundParameter1 = 0;
@@ -179,8 +179,7 @@ namespace BridgeDeck
 
                 double distanceBetweenPoints = UnitUtils.ConvertToInternalUnits(1, UnitTypeId.Meters);
                 XYZ orthVector = plane.XVec.Normalize() * distanceBetweenPoints;
-                bool reverseFamilyInstanse = false;
-                if (reverseFamilyInstanse)
+                if (rotateFamilyInstanse)
                 {
                     orthVector = orthVector.Negate();
                 }
