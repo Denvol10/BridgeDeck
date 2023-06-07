@@ -127,6 +127,16 @@ namespace BridgeDeck
         }
         #endregion
 
+        #region Получение количества точек ручек формы
+        public int GetCountShapeHandlePoints(string familyAndSymbolName)
+        {
+            Family family = GetFamilyByName(familyAndSymbolName);
+            int countShapeHandlePoints = AdaptiveComponentFamilyUtils.GetNumberOfShapeHandlePoints(family);
+
+            return countShapeHandlePoints;
+        }
+        #endregion
+
         #region Построение экземпляров семейства адаптивного сечения
         public void CreateAdaptivePointsFamilyInstanse(string familyAndSymbolName, int countShapeHandlePoints, bool rotateFamilyInstanse)
         {
@@ -245,6 +255,16 @@ namespace BridgeDeck
                 }
             }
             return null;
+        }
+        #endregion
+
+        #region Получение семейства по имени
+        private Family GetFamilyByName(string familyAndSymbolName)
+        {
+            var familyName = familyAndSymbolName.Split('-').First();
+            Family family = new FilteredElementCollector(Doc).OfClass(typeof(Family)).Where(f => f.Name == familyName).First() as Family;
+
+            return family;
         }
         #endregion
 

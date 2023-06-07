@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:BridgeDeck"
         mc:Ignorable="d"
         Title="{Binding Title}"
-        Height="543"
+        Height="502"
         Width="350"
         Background="#f0f0f0"
         WindowStartupLocation="CenterScreen"
@@ -151,32 +151,14 @@
                                   ItemsSource="{Binding GenericModelFamilySymbols}"
                                   SelectedItem="{Binding FamilySymbolName}" />
                     </UniformGrid>
-                    <UniformGrid Rows="2">
-                        <TextBlock Text="Количество ручек формы"
-                                   Style="{StaticResource TextAboveButton}" />
-                        <DockPanel>
-                            <TextBox Text="{Binding CountShapeHandlePoints}"
-                                     DockPanel.Dock="Right"
-                                     TextAlignment="Center"
-                                     VerticalContentAlignment="Center"
-                                     Width="20"
-                                     Height="25" />
-                            <Slider Maximum="2"
-                                    TickPlacement="Both"
-                                    TickFrequency="1"
-                                    IsSnapToTickEnabled="True"
-                                    Value="{Binding CountShapeHandlePoints}"
-                                    Margin="0,0,5,0" />
-                        </DockPanel>
-                    </UniformGrid>
+                    <CheckBox 
+                              Content="Развернуть профиль"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Left"
+                              Margin="10,5,0,0"
+                              IsChecked="{Binding IsRotate}" />
                 </UniformGrid>
-                <CheckBox Grid.Row="1"
-                          Content="Развернуть профиль"
-                          VerticalAlignment="Center"
-                          HorizontalAlignment="Left"
-                          Margin="10,15,0,0"
-                          IsChecked="{Binding IsRotate}" />
-                <UniformGrid Grid.Row="3"
+                <UniformGrid Grid.Row="2"
                              Columns="2"
                              Margin="0,12,0,5">
                     <Button Content="Отмена"

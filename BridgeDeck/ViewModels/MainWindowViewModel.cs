@@ -91,7 +91,7 @@ namespace BridgeDeck.ViewModels
         #endregion
 
         #region Количество точек ручек формы
-        private int _countShapeHandlePoints = 1;
+        private int _countShapeHandlePoints;
         public int CountShapeHandlePoints
         {
             get => _countShapeHandlePoints;
@@ -200,6 +200,7 @@ namespace BridgeDeck.ViewModels
 
         private void OnCreateAdaptiveFamilyInstancesCommandExecuted(object parameter)
         {
+            CountShapeHandlePoints = RevitModel.GetCountShapeHandlePoints(FamilySymbolName);
             RevitModel.CreateAdaptivePointsFamilyInstanse(FamilySymbolName, CountShapeHandlePoints, IsRotate);
             RevitCommand.mainView.Close();
         }
