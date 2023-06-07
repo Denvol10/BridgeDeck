@@ -161,12 +161,12 @@
                 <UniformGrid Grid.Row="2"
                              Columns="2"
                              Margin="0,12,0,5">
-                    <Button Content="Отмена"
-                            Style="{StaticResource SelectButton}"
-                            Command="{Binding CloseWindow}" />
                     <Button Content="Создать"
                             Style="{StaticResource SelectButton}"
                             Command="{Binding CreateAdaptiveFamilyInstances}" />
+                    <Button Content="Отмена"
+                            Style="{StaticResource SelectButton}"
+                            Command="{Binding CloseWindow}" />
                 </UniformGrid>
             </Grid>
         </GroupBox>
