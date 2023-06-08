@@ -197,20 +197,18 @@ namespace BridgeDeck
                 double distanceBetweenPoints = UnitUtils.ConvertToInternalUnits(1, UnitTypeId.Meters);
                 XYZ orthVector = plane.XVec.Normalize() * distanceBetweenPoints;
 
-                XYZ upVector = null;
-                if (isVertical)
-                {
-                    upVector = XYZ.BasisZ * distanceBetweenPoints;
-                }
-                else
-                {
-                    upVector = orthVector.CrossProduct(v1).Normalize() * distanceBetweenPoints;
-                }
+                XYZ upVector = orthVector.CrossProduct(v1).Normalize() * distanceBetweenPoints;
                 bool isPlaneZNegative = upVector.Z < 0;
+
                 if (isPlaneZNegative)
                 {
                     upVector = upVector.Negate();
                     orthVector = orthVector.Negate();
+                }
+
+                if (isVertical)
+                {
+                    upVector = XYZ.BasisZ * distanceBetweenPoints;
                 }
 
                 if (rotateFamilyInstanse)
