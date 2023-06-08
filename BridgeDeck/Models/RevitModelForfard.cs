@@ -6,6 +6,8 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System.Collections.ObjectModel;
 using BridgeDeck.Models;
+using System.IO;
+using System.Text;
 
 namespace BridgeDeck
 {
@@ -98,7 +100,7 @@ namespace BridgeDeck
             get => _boundCurveId2;
             set => _boundCurveId2 = value;
         }
-        
+
         public void GetBoundCurve2()
         {
             BoundCurve2 = RevitGeometryUtils.GetBoundCurve(Uiapp, out _boundCurveId2);
@@ -116,7 +118,7 @@ namespace BridgeDeck
 
             foreach (var family in genericModelFamilies)
             {
-                foreach(var symbolId in family.GetFamilySymbolIds())
+                foreach (var symbolId in family.GetFamilySymbolIds())
                 {
                     var familySymbol = Doc.GetElement(symbolId);
                     familySymbolNames.Add($"{family.Name}-{familySymbol.Name}");
@@ -154,11 +156,15 @@ namespace BridgeDeck
 
             var creationDataList = new List<Autodesk.Revit.Creation.FamilyInstanceCreationData>();
 
-            foreach(var parameter in pointParameters)
+            foreach (var parameter in pointParameters)
             {
                 var familyInstancePoints = new List<XYZ>();
 
                 Plane plane = RoadAxis.GetPlaneOnPolycurve(parameter);
+                if (plane.XVec.Z == -1 || plane.XVec.Z == 1)
+                {
+                    plane = Plane.CreateByOriginAndBasis(plane.Origin, plane.YVec, plane.XVec);
+                }
                 Line lineOnRoad1 = RevitGeometryUtils.GetIntersectCurve(RoadLines1, plane);
                 Line lineOnRoad2 = RevitGeometryUtils.GetIntersectCurve(RoadLines2, plane);
 
@@ -177,9 +183,9 @@ namespace BridgeDeck
                 XYZ firstPoint = null;
                 if (compResult == SetComparisonResult.Overlap)
                 {
-                    foreach(var elem in interResult)
+                    foreach (var elem in interResult)
                     {
-                        if(elem is IntersectionResult result)
+                        if (elem is IntersectionResult result)
                         {
                             firstPoint = result.XYZPoint;
                             familyInstancePoints.Add(firstPoint);
@@ -189,41 +195,45 @@ namespace BridgeDeck
 
                 double distanceBetweenPoints = UnitUtils.ConvertToInternalUnits(1, UnitTypeId.Meters);
                 XYZ orthVector = plane.XVec.Normalize() * distanceBetweenPoints;
+
+                XYZ upVector = orthVector.CrossProduct(v1).Normalize() * distanceBetweenPoints;
+                bool isPlaneZNegative = upVector.Z < 0;
+                if (isPlaneZNegative)
+                {
+                    upVector = upVector.Negate();
+                    orthVector = orthVector.Negate();
+                }
+
                 if (rotateFamilyInstanse)
                 {
                     orthVector = orthVector.Negate();
                 }
+
                 XYZ secondPoint = firstPoint + orthVector;
                 familyInstancePoints.Add(secondPoint);
 
-                XYZ upVector = orthVector.CrossProduct(v1).Normalize() * distanceBetweenPoints;
-                if(upVector.Z < 0)
-                {
-                    upVector = upVector.Negate();
-                }
                 XYZ thirdPoint = firstPoint + upVector;
                 familyInstancePoints.Add(thirdPoint);
 
                 // Добавляем нулевые точки вместо точек ручек формы
-                if(countShapeHandlePoints != 0)
+                if (countShapeHandlePoints != 0)
                 {
-                    for(int i = 0; i < countShapeHandlePoints; i++)
+                    for (int i = 0; i < countShapeHandlePoints; i++)
                     {
                         familyInstancePoints.Add(XYZ.Zero);
                     }
                 }
-
                 creationDataList.Add(new Autodesk.Revit.Creation.FamilyInstanceCreationData(fSymbol, familyInstancePoints));
             }
 
             using (Transaction trans = new Transaction(Doc, "Create Family Instances"))
             {
                 trans.Start();
-                if(!fSymbol.IsActive)
+                if (!fSymbol.IsActive)
                 {
                     fSymbol.Activate();
                 }
-                if(Doc.IsFamilyDocument)
+                if (Doc.IsFamilyDocument)
                 {
                     Doc.FamilyCreate.NewFamilyInstances2(creationDataList);
                 }
