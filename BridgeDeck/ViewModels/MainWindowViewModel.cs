@@ -108,6 +108,15 @@ namespace BridgeDeck.ViewModels
         }
         #endregion
 
+        #region Профиль вертикально
+        private bool _isVertical = true;
+        public bool IsVertical
+        {
+            get => _isVertical;
+            set => Set(ref _isVertical, value);
+        }
+        #endregion
+
         #region Команды
 
         #region Получение оси трассы
@@ -201,7 +210,7 @@ namespace BridgeDeck.ViewModels
         private void OnCreateAdaptiveFamilyInstancesCommandExecuted(object parameter)
         {
             CountShapeHandlePoints = RevitModel.GetCountShapeHandlePoints(FamilySymbolName);
-            RevitModel.CreateAdaptivePointsFamilyInstanse(FamilySymbolName, CountShapeHandlePoints, IsRotate);
+            RevitModel.CreateAdaptivePointsFamilyInstanse(FamilySymbolName, CountShapeHandlePoints, IsRotate, IsVertical);
             RevitCommand.mainView.Close();
         }
 

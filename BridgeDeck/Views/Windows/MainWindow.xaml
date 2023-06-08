@@ -87,7 +87,8 @@
                 <UniformGrid Columns="2">
                     <UniformGrid Rows="2">
                         <TextBlock Text="Линии на поверхности 1"
-                                   Style="{StaticResource TextAboveButton}" VerticalAlignment="Bottom"/>
+                                   Style="{StaticResource TextAboveButton}"
+                                   VerticalAlignment="Bottom" />
                         <Button Style="{StaticResource SelectButton}"
                                 Command="{Binding GetRoadLines1}" />
                     </UniformGrid>
@@ -113,7 +114,8 @@
                 <UniformGrid Columns="2">
                     <UniformGrid Rows="2">
                         <TextBlock Text="Линия границы плиты 1"
-                                   Style="{StaticResource TextAboveButton}" VerticalAlignment="Bottom"/>
+                                   Style="{StaticResource TextAboveButton}"
+                                   VerticalAlignment="Bottom" />
                         <Button Style="{StaticResource SelectButton}"
                                 Command="{Binding GetBoundCurve1}" />
                     </UniformGrid>
@@ -151,12 +153,18 @@
                                   ItemsSource="{Binding GenericModelFamilySymbols}"
                                   SelectedItem="{Binding FamilySymbolName}" />
                     </UniformGrid>
-                    <CheckBox 
-                              Content="Развернуть профиль"
-                              VerticalAlignment="Center"
-                              HorizontalAlignment="Left"
-                              Margin="10,5,0,0"
-                              IsChecked="{Binding IsRotate}" />
+                    <UniformGrid Rows="2">
+                        <CheckBox Content="Развернуть профиль"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Left"
+                                  Margin="10,5,0,0"
+                                  IsChecked="{Binding IsRotate}" />
+                        <CheckBox Content="Вертикально"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Left"
+                                  Margin="10,5,0,0"
+                                  IsChecked="{Binding IsVertical}" />
+                    </UniformGrid>
                 </UniformGrid>
                 <UniformGrid Grid.Row="2"
                              Columns="2"

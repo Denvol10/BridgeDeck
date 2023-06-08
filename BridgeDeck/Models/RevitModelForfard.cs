@@ -140,7 +140,8 @@ namespace BridgeDeck
         #endregion
 
         #region Построение экземпляров семейства адаптивного сечения
-        public void CreateAdaptivePointsFamilyInstanse(string familyAndSymbolName, int countShapeHandlePoints, bool rotateFamilyInstanse)
+        public void CreateAdaptivePointsFamilyInstanse(string familyAndSymbolName, int countShapeHandlePoints,
+                                                       bool rotateFamilyInstanse, bool isVertical)
         {
             Curve curveInPolyCurve1 = null;
             double boundParameter1 = 0;
@@ -196,7 +197,15 @@ namespace BridgeDeck
                 double distanceBetweenPoints = UnitUtils.ConvertToInternalUnits(1, UnitTypeId.Meters);
                 XYZ orthVector = plane.XVec.Normalize() * distanceBetweenPoints;
 
-                XYZ upVector = orthVector.CrossProduct(v1).Normalize() * distanceBetweenPoints;
+                XYZ upVector = null;
+                if (isVertical)
+                {
+                    upVector = XYZ.BasisZ * distanceBetweenPoints;
+                }
+                else
+                {
+                    upVector = orthVector.CrossProduct(v1).Normalize() * distanceBetweenPoints;
+                }
                 bool isPlaneZNegative = upVector.Z < 0;
                 if (isPlaneZNegative)
                 {
