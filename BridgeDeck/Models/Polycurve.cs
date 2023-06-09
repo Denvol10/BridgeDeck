@@ -20,47 +20,55 @@ namespace BridgeDeck.Models
                 throw new Exception("Линии не выбраны");
             }
 
-            Curve firstUnreverseCurve = null;
-            var firstCurve = GetFirstCurve(curves, out firstUnreverseCurve);
+            if (countCurves > 1)
+            {
+                Curve firstUnreverseCurve = null;
+                var firstCurve = GetFirstCurve(curves, out firstUnreverseCurve);
 
-            Curves = new List<Curve>()
+                Curves = new List<Curve>()
             {
                 firstCurve
             };
-            var unsortedCurves = new List<Curve>
+
+                var unsortedCurves = new List<Curve>
             {
                 firstCurve,
                 firstUnreverseCurve
             };
 
-            countIter--;
+                countIter--;
 
-            Curve lastCurve = firstCurve;
+                Curve lastCurve = firstCurve;
 
-            while (countIter != 0)
-            {
-                foreach (var curve in curves)
+                while (countIter != 0)
                 {
-                    if (IsNextCurve(lastCurve, curve) && !unsortedCurves.Contains(curve))
+                    foreach (var curve in curves)
                     {
+                        if (IsNextCurve(lastCurve, curve) && !unsortedCurves.Contains(curve))
+                        {
 
-                        if (IsNeedReverseCurves(lastCurve, curve))
-                        {
-                            Curve reverseCurve = curve.CreateReversed();
-                            Curves.Add(reverseCurve);
-                            unsortedCurves.Add(reverseCurve);
-                            unsortedCurves.Add(curve);
-                            lastCurve = reverseCurve;
-                        }
-                        else
-                        {
-                            Curves.Add(curve);
-                            unsortedCurves.Add(curve);
-                            lastCurve = curve;
+                            if (IsNeedReverseCurves(lastCurve, curve))
+                            {
+                                Curve reverseCurve = curve.CreateReversed();
+                                Curves.Add(reverseCurve);
+                                unsortedCurves.Add(reverseCurve);
+                                unsortedCurves.Add(curve);
+                                lastCurve = reverseCurve;
+                            }
+                            else
+                            {
+                                Curves.Add(curve);
+                                unsortedCurves.Add(curve);
+                                lastCurve = curve;
+                            }
                         }
                     }
+                    countIter--;
                 }
-                countIter--;
+            }
+            else
+            {
+                Curves = new List<Curve> { curves.First() };
             }
 
             ParametricCurves = new List<(Curve Line, double Start, double Finish)>();
