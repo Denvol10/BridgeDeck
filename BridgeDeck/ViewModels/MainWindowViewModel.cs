@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using BridgeDeck.Infrastructure;
+using BridgeDeck.Models;
 
 namespace BridgeDeck.ViewModels
 {
@@ -73,8 +74,8 @@ namespace BridgeDeck.ViewModels
         #endregion
 
         #region Список семейств и их типоразмеров
-        private ObservableCollection<string> _genericModelFamilySymbols = new ObservableCollection<string>();
-        public ObservableCollection<string> GenericModelFamilySymbols
+        private ObservableCollection<FamilySymbolSelector> _genericModelFamilySymbols = new ObservableCollection<FamilySymbolSelector>();
+        public ObservableCollection<FamilySymbolSelector> GenericModelFamilySymbols
         {
             get => _genericModelFamilySymbols;
             set => Set(ref _genericModelFamilySymbols, value);
@@ -82,8 +83,8 @@ namespace BridgeDeck.ViewModels
         #endregion
 
         #region Выбранный типоразмер семейства
-        private string _familySymbolName;
-        public string FamilySymbolName
+        private FamilySymbolSelector _familySymbolName;
+        public FamilySymbolSelector FamilySymbolName
         {
             get => _familySymbolName;
             set => Set(ref _familySymbolName, value);

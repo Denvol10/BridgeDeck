@@ -108,9 +108,9 @@ namespace BridgeDeck
         #endregion
 
         #region Список названий типоразмеров семейств
-        public ObservableCollection<string> GetFamilySymbolNames()
+        public ObservableCollection<FamilySymbolSelector> GetFamilySymbolNames()
         {
-            var familySymbolNames = new ObservableCollection<string>();
+            var familySymbolNames = new ObservableCollection<FamilySymbolSelector>();
             var allFamilies = new FilteredElementCollector(Doc).OfClass(typeof(Family)).OfType<Family>();
             var genericModelFamilies = allFamilies.Where(f => f.FamilyCategory.Id.IntegerValue == (int)BuiltInCategory.OST_GenericModel);
             if (genericModelFamilies.Count() == 0)
@@ -121,7 +121,7 @@ namespace BridgeDeck
                 foreach (var symbolId in family.GetFamilySymbolIds())
                 {
                     var familySymbol = Doc.GetElement(symbolId);
-                    familySymbolNames.Add($"{family.Name}-{familySymbol.Name}");
+                    familySymbolNames.Add(new FamilySymbolSelector(family.Name, familySymbol.Name));
                 }
             }
 
@@ -130,7 +130,7 @@ namespace BridgeDeck
         #endregion
 
         #region Получение количества точек ручек формы
-        public int GetCountShapeHandlePoints(string familyAndSymbolName)
+        public int GetCountShapeHandlePoints(FamilySymbolSelector familyAndSymbolName)
         {
             Family family = GetFamilyByName(familyAndSymbolName);
             int countShapeHandlePoints = AdaptiveComponentFamilyUtils.GetNumberOfShapeHandlePoints(family);
@@ -140,7 +140,7 @@ namespace BridgeDeck
         #endregion
 
         #region Построение экземпляров семейства адаптивного сечения
-        public void CreateAdaptivePointsFamilyInstanse(string familyAndSymbolName, int countShapeHandlePoints,
+        public void CreateAdaptivePointsFamilyInstanse(FamilySymbolSelector familyAndSymbolName, int countShapeHandlePoints,
                                                        bool rotateFamilyInstanse, bool isVertical)
         {
             Curve curveInPolyCurve1 = null;
@@ -256,10 +256,10 @@ namespace BridgeDeck
         #endregion
 
         #region Получение типоразмера по имени
-        private FamilySymbol GetFamilySymbolByName(string familyAndSymbolName)
+        private FamilySymbol GetFamilySymbolByName(FamilySymbolSelector familyAndSymbolName)
         {
-            var familyName = familyAndSymbolName.Split('-').First();
-            var symbolName = familyAndSymbolName.Split('-').Last();
+            var familyName = familyAndSymbolName.FamilyName;
+            var symbolName = familyAndSymbolName.SymbolName;
 
             Family family = new FilteredElementCollector(Doc).OfClass(typeof(Family)).Where(f => f.Name == familyName).First() as Family;
             var symbolIds = family.GetFamilySymbolIds();
@@ -276,9 +276,9 @@ namespace BridgeDeck
         #endregion
 
         #region Получение семейства по имени
-        private Family GetFamilyByName(string familyAndSymbolName)
+        private Family GetFamilyByName(FamilySymbolSelector familyAndSymbolName)
         {
-            var familyName = familyAndSymbolName.Split('-').First();
+            var familyName = familyAndSymbolName.FamilyName;
             Family family = new FilteredElementCollector(Doc).OfClass(typeof(Family)).Where(f => f.Name == familyName).First() as Family;
 
             return family;
