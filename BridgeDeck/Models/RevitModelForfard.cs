@@ -169,6 +169,11 @@ namespace BridgeDeck
                 Line lineOnRoad1 = RevitGeometryUtils.GetIntersectCurve(RoadLines1, plane);
                 Line lineOnRoad2 = RevitGeometryUtils.GetIntersectCurve(RoadLines2, plane);
 
+                if(lineOnRoad1 is null || lineOnRoad2 is null)
+                {
+                    continue;
+                }    
+
                 XYZ v1 = lineOnRoad1.GetEndPoint(0) - lineOnRoad1.GetEndPoint(1);
 
                 double lineParam1;
