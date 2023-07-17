@@ -34,5 +34,17 @@ namespace BridgeDeck.Properties {
                 this["RoadAxisElemIds"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RoadLineElemIds1 {
+            get {
+                return ((string)(this["RoadLineElemIds1"]));
+            }
+            set {
+                this["RoadLineElemIds1"] = value;
+            }
+        }
     }
 }
