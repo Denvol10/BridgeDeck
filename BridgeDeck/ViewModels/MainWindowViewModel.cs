@@ -212,6 +212,7 @@ namespace BridgeDeck.ViewModels
         {
             CountShapeHandlePoints = RevitModel.GetCountShapeHandlePoints(FamilySymbolName);
             RevitModel.CreateAdaptivePointsFamilyInstanse(FamilySymbolName, CountShapeHandlePoints, IsRotate, IsVertical);
+            SaveSettings();
             RevitCommand.mainView.Close();
         }
 
@@ -226,6 +227,7 @@ namespace BridgeDeck.ViewModels
 
         private void OnCloseWindowCommandExecuted(object parameter)
         {
+            SaveSettings();
             RevitCommand.mainView.Close();
         }
 
@@ -237,12 +239,30 @@ namespace BridgeDeck.ViewModels
 
         #endregion
 
+        private void SaveSettings()
+        {
+            Properties.Settings.Default["RoadAxisElemIds"] = RoadAxisElemIds;
+            Properties.Settings.Default.Save();
+        }
+
         #region Конструктор класса MainWindowViewModel
         public MainWindowViewModel(RevitModelForfard revitModel)
         {
             RevitModel = revitModel;
 
             GenericModelFamilySymbols = RevitModel.GetFamilySymbolNames();
+
+            #region Инициализация значения элементам оси из Settings
+            if (!(Properties.Settings.Default["RoadAxisElemIds"] is null))
+            {
+                string axisElementIdInSettings = Properties.Settings.Default["RoadAxisElemIds"].ToString();
+                if(RevitModel.IsLinesExistInModel(axisElementIdInSettings) && !string.IsNullOrEmpty(axisElementIdInSettings))
+                {
+                    RoadAxisElemIds = axisElementIdInSettings;
+                    RevitModel.GetAxisBySettings(axisElementIdInSettings);
+                }
+            }
+            #endregion
 
             #region Команды
             GetRoadAxis = new LambdaCommand(OnGetRoadAxisCommandExecuted, CanGetRoadAxisCommandExecute);
