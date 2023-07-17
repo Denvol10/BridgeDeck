@@ -101,6 +101,14 @@ namespace BridgeDeck
         }
         #endregion
 
+        #region Получение линии на поверхности 2 из Settings
+        public void GetRoadLines2BySettings(string elemIdsInSettings)
+        {
+            var elemIds = RevitGeometryUtils.GetIdsByString(elemIdsInSettings);
+            RoadLines2 = RevitGeometryUtils.GetCurvesById(Doc, elemIds).OfType<Line>().ToList();
+        }
+        #endregion
+
         #region Граница плиты 1
         public Curve BoundCurve1 { get; set; }
 

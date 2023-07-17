@@ -243,6 +243,7 @@ namespace BridgeDeck.ViewModels
         {
             Properties.Settings.Default["RoadAxisElemIds"] = RoadAxisElemIds;
             Properties.Settings.Default["RoadLineElemIds1"] = RoadLineElemIds1;
+            Properties.Settings.Default["RoadLineElemIds2"] = RoadLineElemIds2;
             Properties.Settings.Default.Save();
         }
 
@@ -273,6 +274,18 @@ namespace BridgeDeck.ViewModels
                 {
                     RoadLineElemIds1 = line1ElementIdInSettings;
                     RevitModel.GetRoadLines1BySettings(line1ElementIdInSettings);
+                }
+            }
+            #endregion
+
+            #region Инициализация значения элементам линии на поверхности 2
+            if (!(Properties.Settings.Default["RoadLineElemIds2"] is null))
+            {
+                string line2ElementIdInSettings = Properties.Settings.Default["RoadLineElemIds2"].ToString();
+                if(RevitModel.IsLinesExistInModel(line2ElementIdInSettings) && !string.IsNullOrEmpty(line2ElementIdInSettings))
+                {
+                    RoadLineElemIds2 = line2ElementIdInSettings;
+                    RevitModel.GetRoadLines2BySettings(line2ElementIdInSettings);
                 }
             }
             #endregion
