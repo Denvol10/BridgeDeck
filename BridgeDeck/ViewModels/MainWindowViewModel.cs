@@ -113,7 +113,7 @@ namespace BridgeDeck.ViewModels
         #endregion
 
         #region Профиль вертикально
-        private bool _isVertical = true;
+        private bool _isVertical = (bool)Properties.Settings.Default["IsVertical"];
         public bool IsVertical
         {
             get => _isVertical;
@@ -251,6 +251,7 @@ namespace BridgeDeck.ViewModels
             Properties.Settings.Default["BoundCurveId2"] = BoundCurveId2;
             Properties.Settings.Default["FamilySymbolIndex"] = GenericModelFamilySymbols.IndexOf(FamilySymbolName);
             Properties.Settings.Default["IsRotate"] = IsRotate;
+            Properties.Settings.Default["IsVertical"] = IsVertical;
             Properties.Settings.Default.Save();
         }
 
