@@ -70,5 +70,17 @@ namespace BridgeDeck.Properties {
                 this["BoundCurveId1"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BoundCurveId2 {
+            get {
+                return ((string)(this["BoundCurveId2"]));
+            }
+            set {
+                this["BoundCurveId2"] = value;
+            }
+        }
     }
 }

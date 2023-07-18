@@ -157,6 +157,13 @@ namespace BridgeDeck
         }
         #endregion
 
+        #region Получение границы 2 из Settings
+        public void GetBound2BySettings(string elemIdInSettings)
+        {
+            BoundCurve2 = RevitGeometryUtils.GetBoundCurveById(Doc, elemIdInSettings);
+        }
+        #endregion
+
         #region Список названий типоразмеров семейств
         public ObservableCollection<FamilySymbolSelector> GetFamilySymbolNames()
         {
