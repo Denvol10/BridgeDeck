@@ -104,7 +104,7 @@ namespace BridgeDeck.ViewModels
         #endregion
 
         #region Повернуть профиль
-        private bool _isRotate = false;
+        private bool _isRotate = (bool)Properties.Settings.Default["IsRotate"];
         public bool IsRotate
         {
             get => _isRotate;
@@ -250,6 +250,7 @@ namespace BridgeDeck.ViewModels
             Properties.Settings.Default["BoundCurveId1"] = BoundCurveId1;
             Properties.Settings.Default["BoundCurveId2"] = BoundCurveId2;
             Properties.Settings.Default["FamilySymbolIndex"] = GenericModelFamilySymbols.IndexOf(FamilySymbolName);
+            Properties.Settings.Default["IsRotate"] = IsRotate;
             Properties.Settings.Default.Save();
         }
 
