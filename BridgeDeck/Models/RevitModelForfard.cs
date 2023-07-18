@@ -52,6 +52,15 @@ namespace BridgeDeck
         }
         #endregion
 
+        #region Проверка на то существует линия границы плиты
+        public bool IsBoundLineExistInModel(string elemIdsInSettings)
+        {
+            var elemIds = RevitGeometryUtils.GetIdsByString(elemIdsInSettings);
+
+            return RevitGeometryUtils.IsElemsExistInModel(Doc, elemIds, typeof(ModelLine));
+        }
+        #endregion
+
         #region Получение оси трассы из Settings
         public void GetAxisBySettings(string elemIdsInSettings)
         {
@@ -122,6 +131,13 @@ namespace BridgeDeck
         public void GetBoundCurve1()
         {
             BoundCurve1 = RevitGeometryUtils.GetBoundCurve(Uiapp, out _boundCurveId1);
+        }
+        #endregion
+
+        #region Получение границы 1 из Settings
+        public void GetBound1BySettings(string elemIdInSettings)
+        {
+            BoundCurve1 = RevitGeometryUtils.GetBoundCurveById(Doc, elemIdInSettings);
         }
         #endregion
 

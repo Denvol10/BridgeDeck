@@ -58,5 +58,17 @@ namespace BridgeDeck.Properties {
                 this["RoadLineElemIds2"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BoundCurveId1 {
+            get {
+                return ((string)(this["BoundCurveId1"]));
+            }
+            set {
+                this["BoundCurveId1"] = value;
+            }
+        }
     }
 }

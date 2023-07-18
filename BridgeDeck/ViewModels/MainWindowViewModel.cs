@@ -244,6 +244,7 @@ namespace BridgeDeck.ViewModels
             Properties.Settings.Default["RoadAxisElemIds"] = RoadAxisElemIds;
             Properties.Settings.Default["RoadLineElemIds1"] = RoadLineElemIds1;
             Properties.Settings.Default["RoadLineElemIds2"] = RoadLineElemIds2;
+            Properties.Settings.Default["BoundCurveId1"] = BoundCurveId1;
             Properties.Settings.Default.Save();
         }
 
@@ -286,6 +287,18 @@ namespace BridgeDeck.ViewModels
                 {
                     RoadLineElemIds2 = line2ElementIdInSettings;
                     RevitModel.GetRoadLines2BySettings(line2ElementIdInSettings);
+                }
+            }
+            #endregion
+
+            #region Инициализация значения элемента граница плиты 1
+            if (!(Properties.Settings.Default["BoundCurveId1"] is null))
+            {
+                string bound1ElementIdSettings = Properties.Settings.Default["BoundCurveId1"].ToString();
+                if(RevitModel.IsBoundLineExistInModel(bound1ElementIdSettings) && !string.IsNullOrEmpty(bound1ElementIdSettings))
+                {
+                    BoundCurveId1 = bound1ElementIdSettings;
+                    RevitModel.GetBound1BySettings(bound1ElementIdSettings);
                 }
             }
             #endregion
