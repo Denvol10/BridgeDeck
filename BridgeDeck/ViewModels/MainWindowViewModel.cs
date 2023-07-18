@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using BridgeDeck.Infrastructure;
 using BridgeDeck.Models;
@@ -14,6 +15,8 @@ namespace BridgeDeck.ViewModels
             get => _revitModel;
             set => _revitModel = value;
         }
+
+        private int _familySymbolIndex = (int)Properties.Settings.Default["FamilySymbolIndex"];
 
         #region Заголовок
         private string _title = "Плита ПС";
@@ -246,6 +249,7 @@ namespace BridgeDeck.ViewModels
             Properties.Settings.Default["RoadLineElemIds2"] = RoadLineElemIds2;
             Properties.Settings.Default["BoundCurveId1"] = BoundCurveId1;
             Properties.Settings.Default["BoundCurveId2"] = BoundCurveId2;
+            Properties.Settings.Default["FamilySymbolIndex"] = GenericModelFamilySymbols.IndexOf(FamilySymbolName);
             Properties.Settings.Default.Save();
         }
 
@@ -313,6 +317,13 @@ namespace BridgeDeck.ViewModels
                     BoundCurveId2 = bound2ElementIdSetiings;
                     RevitModel.GetBound2BySettings(bound2ElementIdSetiings);
                 }
+            }
+            #endregion
+
+            #region Инициализация значения типоразмера семейства
+            if(_familySymbolIndex >= 0 && _familySymbolIndex <= GenericModelFamilySymbols.Count - 1)
+            {
+                FamilySymbolName = GenericModelFamilySymbols.ElementAt(_familySymbolIndex);
             }
             #endregion
 
